@@ -93,7 +93,7 @@ Apify.main(async () => {
             input.startUrls[i] = request;
         }
         // create RequestList and reference startUrl
-        requestList = new Apify.RequestList(input.startUrls);
+        requestList = new Apify.RequestList({sources: input.startUrls});
         startUrl = addUrlParameters('https://www.booking.com/searchresults.html?dest_type=city;ss=paris&order=bayesian_review_score');
     }
     else{
