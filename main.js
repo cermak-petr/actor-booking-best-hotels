@@ -58,7 +58,6 @@ Apify.main(async () => {
      * @param {string} url - Booking.com URL to add the parameters to.
      */
     const addUrlParameters = url => {
-        if(input.startUrls){return url;}
         if(url.indexOf('?') < 0){url += '?';}
         if(input.checkIn && input.checkOut){
             const ci = input.checkIn.split(/-|\//);
@@ -348,6 +347,7 @@ Apify.main(async () => {
                 }));
             };
             
+            // Check if startUrl was open correctly 
             if(input.startUrls){
                 const pageUrl = await page.url();
                 if(pageUrl.length < request.url){
