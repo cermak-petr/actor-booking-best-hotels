@@ -43,7 +43,6 @@ Apify.main(async () => {
     
     // Actor INPUT variable
     const input = await Apify.getValue('INPUT');
-    console.dir(input.proxyConfig);
     
     // Check if all required input attributes are present.
     if(!input.search){
@@ -82,22 +81,9 @@ Apify.main(async () => {
     }
     
     /** Creates new Puppeteer Browser instance. */
-    const launchPuppeteer = input.country ? 
-        async () => {
-            if(!input.proxyGroup){return await Apify.launchPuppeteer({});}
-            const {APIFY_PROXY_PASSWORD, APIFY_PROXY_HOSTNAME, APIFY_PROXY_PORT } = process.env;
-            let username = `groups-${input.proxyGroup}`;
-            if(input.country){username += ',country-' + input.country;}
-            const proxyUrl = `http://${username}:${APIFY_PROXY_PASSWORD}@${APIFY_PROXY_HOSTNAME}:${APIFY_PROXY_PORT}`;
-            return await Apify.launchPuppeteer({proxyUrl});
-        } : 
-        async () => {
-            const options = input.proxyGroup ? {
-                useApifyProxy: true,
-                apifyProxyGroups: [input.proxyGroup]
-            } : {};
-            return await Apify.launchPuppeteer(options);
-        };
+    const launchPuppeteer = async () => {
+        return await Apify.launchPuppeteer(input.proxyConfig || {});
+    };
     
     let retiring = false;
     
