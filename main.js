@@ -357,7 +357,7 @@ Apify.main(async () => {
                 
                 // Check if the page was open through working proxy.
                 const pageUrl = await page.url();
-                if(pageUrl.indexOf('label') < 0){
+                if(!input.startUrls && pageUrl.indexOf('label') < 0){
                     await retireBrowser();
                     return;
                 }
