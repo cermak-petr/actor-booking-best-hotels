@@ -188,21 +188,21 @@ Apify.main(async () => {
                             var pc = prtxt.match(/[^\d]+/);
                             var rat = $(sr).attr('data-score');
                             var found = num ? parseInt(num) : null;
-                            //var starAttr = jThis.find('i.star_track svg').attr('class');
-                            //var stars = starAttr ? starAttr.match(/\d/) : null;
+                            var starAttr = jThis.find('i.star_track svg').attr('class');
+                            var stars = starAttr ? starAttr.match(/\d/) : null;
                             var item = {
                                 'url': window.location.origin + $('.hotel_name_link').attr('href'),
                                 'name': $(sr).find('.sr-hotel__name').text().trim(),
                                 'rating': rat ? parseFloat(rat.replace(',', '.')) : null,
                                 'reviews': nReviews ? parseInt(nReviews[0]) : null,
-                                //'stars': stars ? parseInt(stars[0]) : null,
+                                'stars': stars ? parseInt(stars[0]) : null,
                                 'price': pr ? parseFloat(pr[0]) : null,
                                 'currency': pc ? pc[0].trim() : null,
                                 'roomType': rl.length > 0 ? rl[0].textContent.trim() : null,
                                 'persons': occ ? occ : null,
                                 'totalFound': found,
                             };
-                            if(item.score && item.score >= minScore){result.push(item);}
+                            if(item.rating && item.rating >= minScore){result.push(item);}
                             if(++finished >= started){
                                 resolve(result.sort((a, b) => a - b));
                             }
