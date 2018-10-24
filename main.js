@@ -87,8 +87,8 @@ Apify.main(async () => {
         for(let i = 0; i < input.startUrls.length; i++){
             let request = input.startUrls[i];
             if(typeof request === 'string'){request = {url: request};}
-            if(!request.label && request.url.indexOf('/hotel/') > -1){
-                request.label = 'detail';
+            if((!request.userData || !request.userData.label) && request.url.indexOf('/hotel/') > -1){
+                request.userData = {label: 'detail'};
             }
             input.startUrls[i] = request;
         }
