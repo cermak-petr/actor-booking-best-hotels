@@ -1,0 +1,71 @@
+{
+    "title": "Booking Crawler input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "search": {
+            "title": "Boking search query",
+            "type": "string",
+            "description": "Query strin to be searched on Booking.com",
+            "default": "",
+            "editor": "textfield"
+        },
+        "minScore": {
+            "title": "Minimum rating",
+            "type": "string",
+            "description": "Minimum rating of a hotel",
+            "default": "8.4",
+            "editor": "textfield"
+        },
+        "maxPages": {
+            "title": "Maximum pagination pages",
+            "type": "integer",
+            "description": "Number of pagination pages to be crawled",
+            "default": 20,
+            "maximum": 1000000
+        },
+        "concurrency": {
+            "title": "Maximum concurrency",
+            "type": "integer",
+            "description": "Maximum number of parallel browser pages",
+            "default": 10,
+            "maximum": 50
+        },
+        "checkIn": {
+            "title": "Check-in date (mm-dd-yyyy)",
+            "type": "string",
+            "description": "Check-in date",
+            "default": "",
+            "editor": "textfield"
+        },
+        "checkOut": {
+            "title": "Check-out date (mm-dd-yyyy)",
+            "type": "string",
+            "description": "Check-out date",
+            "default": "",
+            "editor": "textfield"
+        },
+        "currency": {
+            "title": "Preferred currency",
+            "type": "string",
+            "description": "Currency code to be set on the site",
+            "default": "EUR",
+            "editor": "textfield"
+        },
+        "language": {
+            "title": "Language",
+            "type": "string",
+            "description": "Language code to be set on the site",
+            "default": "en-gb",
+            "editor": "textfield"
+        },
+        "proxyConfig": {
+            "title": "Proxy configuration",
+            "type": "object",
+            "description": "Optionaly use Apify Proxy",
+            "default": { "userApifyProxy": true },
+            "editor": "proxy"
+        }
+    },
+    "required": ["search"]
+}
