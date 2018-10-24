@@ -75,7 +75,7 @@ Apify.main(async () => {
             const lng = input.language.replace('_','-');
             url += `&lang=${lng}`;
         }
-        return url;
+        return url.replace('?&', '?');
     }
     
     startUrl = addUrlParameters(startUrl);
