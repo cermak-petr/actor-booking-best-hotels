@@ -193,7 +193,7 @@ Apify.main(async () => {
                             var loc = jThis.find('.district_link').attr('data-coords');
                             var latlng = loc ? loc.split(',') : null;
                             var item = {
-                                'url': window.location.origin + $('.hotel_name_link').attr('href'),
+                                'url': window.location.origin + jThis.find('.hotel_name_link').attr('href'),
                                 'name': $(sr).find('.sr-hotel__name').text().trim(),
                                 'rating': rat ? parseFloat(rat.replace(',', '.')) : null,
                                 'reviews': nReviews ? parseInt(nReviews[0]) : null,
