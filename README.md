@@ -39,11 +39,11 @@ __proxyGroup__ Apify proxy group to be used.
 __sortBy__ set a hotel attribute by which the results will be ordered, must be one of the following.  
 ```javascript
 [
-    "bayesian_review_score",
-    "popularity",
-    "price",
-    "review_score_and_price",
-    "class",
-    "class_asc",
-    "distance_from_landmark&dst_landmark=cc"
+    "bayesian_review_score",    // Rating
+    "popularity",               // Popularity
+    "price",                    // Price
+    "review_score_and_price",   // Rating and price
+    "class",                    // Stars
+    "class_asc",                // Stars ascending
+    "distance_from_landmark"    // Distance from city centre
 ]
