@@ -10,7 +10,7 @@
             "default": true
         },
         "search": {
-            "title": "Boking search query",
+            "title": "Booking search query",
             "type": "string",
             "description": "Query strin to be searched on Booking.com",
             "default": "",
