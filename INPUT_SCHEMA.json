@@ -21,6 +21,7 @@
             "type": "string",
             "description": "Hotel attribute by which the results will be ordered",
             "default": "bayesian_review_score",
+            "editor": "textfield",
             "enum": [
                 "bayesian_review_score",
                 "popularity",
