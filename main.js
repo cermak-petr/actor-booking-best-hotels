@@ -60,7 +60,7 @@ Apify.main(async () => {
      * Adds URL parameters to a Booking.com URL (timespan, language and currency).
      * @param {string} url - Booking.com URL to add the parameters to.
      */
-    const addUrlParameters(url){
+    const addUrlParameters = url => {
         if(url.indexOf('?') < 0){url += '?';}
         if(input.checkIn && input.checkOut){
             const ci = input.checkIn.split(/-|\//);
