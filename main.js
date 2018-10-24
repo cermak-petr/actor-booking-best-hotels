@@ -55,19 +55,30 @@ Apify.main(async () => {
     // Create startURL based on provided INPUT.
     const query = encodeURIComponent(input.search);
     let startUrl = `https://www.booking.com/searchresults.html?dest_type=city;ss=${query}&order=bayesian_review_score`;
-    if(input.checkIn && input.checkOut){
-        const ci = input.checkIn.split(/-|\//);
-        const co = input.checkOut.split(/-|\//);
-        startUrl += `&checkin_year_month_monthday=${ci[2]}-${ci[0]}-${ci[1]}`;
-        startUrl += `&checkout_year_month_monthday=${co[2]}-${co[0]}-${co[1]}`;
+    
+    /**
+     * Adds URL parameters to a Booking.com URL (timespan, language and currency).
+     * @param {string} url - Booking.com URL to add the parameters to.
+     */
+    const addUrlParameters(url){
+        if(url.indexOf('?') < 0){url += '?';}
+        if(input.checkIn && input.checkOut){
+            const ci = input.checkIn.split(/-|\//);
+            const co = input.checkOut.split(/-|\//);
+            url += `&checkin_year_month_monthday=${ci[2]}-${ci[0]}-${ci[1]}`;
+            url += `&checkout_year_month_monthday=${co[2]}-${co[0]}-${co[1]}`;
+        }
+        if(input.currency){
+            url += `&selected_currency=${input.currency.toUpperCase()}&changed_currency=1&top_currency=1`;
+        }
+        if(input.language){
+            const lng = input.language.replace('_','-');
+            url += `&lang=${lng}`;
+        }
+        return url;
     }
-    if(input.currency){
-        startUrl += `&selected_currency=${input.currency.toUpperCase()}&changed_currency=1&top_currency=1`;
-    }
-    if(input.language){
-        const lng = input.language.replace('_','-');
-        startUrl += `&lang=${lng}`;
-    }
+    
+    startUrl = addUrlParameters(startUrl);
     
     // Enqueue all pagination pages.
     startUrl += '&rows=20';
@@ -346,7 +357,7 @@ Apify.main(async () => {
                 const stars = starTitle ? starTitle.match(/\d/) : null;
                 const rooms = await extractRooms();
                 await Apify.pushData({
-                    url: (await page.url()).split('?')[0],
+                    url: addUrlParameters((await page.url()).split('?')[0]),
                     name: await getAttribute(name, 'textContent'),
                     description: ld.description,
                     stars: stars ? stars[0] : null,
@@ -370,7 +381,12 @@ Apify.main(async () => {
                     console.log('extracting data...');
                     await Apify.utils.puppeteer.injectJQuery(page);
                     const result = await page.evaluate(listPageFunction, input.minScore || 8.4);
-                    if(result.length > 0){await Apify.pushData(result);}
+                    if(result.length > 0){
+                        for(const item of result){
+                            item.url = addUrlParameters(item.url);
+                        }
+                        await Apify.pushData(result);
+                    }
                 }
                 // If not, enqueue the detail pages to be extracted.
                 else{
