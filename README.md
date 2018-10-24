@@ -34,7 +34,7 @@ __checkIn__ check-in date in the mm-dd-yyyy format.
 __checkOut__ check-out date in the mm-dd-yyyy format.  
 __currency__ preferred currency code to be set on the site.  
 __language__ preferred language code to be set on the site.  
-__proxyGroup__ Apify proxy group to be used.
+__proxyGroup__ Apify proxy group to be used.  
 __sortBy__ set a hotel attribute by which the results will be ordered, must be one of the following.  
 ```javascript
 [
