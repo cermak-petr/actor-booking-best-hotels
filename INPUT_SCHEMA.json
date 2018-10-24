@@ -16,6 +16,31 @@
             "default": "",
             "editor": "textfield"
         },
+        "sortBy": {
+            "title": "Order results by",
+            "type": "string",
+            "description": "Hotel attribute by which the results will be ordered",
+            "default": "bayesian_review_score",
+            "enum": [
+                "bayesian_review_score",
+                "popularity",
+                "price",
+                "review_score_and_price",
+                "class",
+                "class_asc",
+                "distance_from_landmark"
+            ],
+            "enumTitles": [
+                "Rating",
+                "Popularity",
+                "Price",
+                "Rating and price",
+                "Stars",
+                "Stars ascending",
+                "Distance from city centre"
+            ],
+            "editor": "textfield"
+        },
         "minScore": {
             "title": "Minimum rating",
             "type": "string",
