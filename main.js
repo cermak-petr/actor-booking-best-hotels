@@ -190,6 +190,8 @@ Apify.main(async () => {
                             var found = num ? parseInt(num) : null;
                             var starAttr = jThis.find('i.star_track svg').attr('class');
                             var stars = starAttr ? starAttr.match(/\d/) : null;
+                            var loc = jThis.find('.district_link').attr('coords');
+                            var latlng = loc ? loc.split(',') : null;
                             var item = {
                                 'url': window.location.origin + $('.hotel_name_link').attr('href'),
                                 'name': $(sr).find('.sr-hotel__name').text().trim(),
@@ -200,6 +202,7 @@ Apify.main(async () => {
                                 'currency': pc ? pc[0].trim() : null,
                                 'roomType': rl.length > 0 ? rl[0].textContent.trim() : null,
                                 'persons': occ ? occ : null,
+                                'location': latLng ? {lat: latLng[0], lng: latLng[1]} : null,
                                 'totalFound': found,
                             };
                             if(item.rating && item.rating >= minScore){result.push(item);}
