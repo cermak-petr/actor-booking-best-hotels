@@ -28,7 +28,7 @@
                 "review_score_and_price",
                 "class",
                 "class_asc",
-                "distance_from_landmark"
+                "distance_from_landmark&dst_landmark=cc"
             ],
             "enumTitles": [
                 "Rating",
