@@ -3,6 +3,12 @@
     "type": "object",
     "schemaVersion": 1,
     "properties": {
+        "simple": {
+            "title": "Simple scrape",
+            "type": "boolean",
+            "description": "Extract hotel list pages only (no detail)",
+            "default": true
+        },
         "search": {
             "title": "Boking search query",
             "type": "string",
