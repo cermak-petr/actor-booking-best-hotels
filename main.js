@@ -80,6 +80,15 @@ Apify.main(async () => {
         }));
     }
     
+    // Temporary fix, make UI proxy input compatible
+    if(input.proxyConfig && input.proxyConfig.apifyProxyGroups){
+        for(let i = 0; i < input.proxyConfig.apifyProxyGroups.length; i++){
+            const gSpl = input.proxyConfig.apifyProxyGroups[i].split['-'];
+            const nGroup = gSpl[gSpl.length - 1];
+            input.proxyConfig.apifyProxyGroups[i] = nGroup;
+        }
+    }
+    
     /** Creates new Puppeteer Browser instance. */
     const launchPuppeteer = async () => {
         return await Apify.launchPuppeteer(input.proxyConfig || {});
