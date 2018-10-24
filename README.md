@@ -20,7 +20,8 @@ Input is a JSON object with the following properties:
     "checkOut": CHECK_OUT_DATE, 
     "currency": PREFERRED_CURRENCY,
     "language": PREFERRED_LANGUAGE,
-    "proxyGroup": PROXY_GROUP
+    "proxyGroup": PROXY_GROUP,
+    "sortBy": BOOKING_SORT_TYPE
 }
 ```
 
@@ -34,3 +35,14 @@ __checkOut__ check-out date in the mm-dd-yyyy format.
 __currency__ preferred currency code to be set on the site.  
 __language__ preferred language code to be set on the site.  
 __proxyGroup__ Apify proxy group to be used.
+__sortBy__ set a hotel attribute by which the results will be ordered, must be one of the following.  
+```javascript
+[
+    "bayesian_review_score",
+    "popularity",
+    "price",
+    "review_score_and_price",
+    "class",
+    "class_asc",
+    "distance_from_landmark&dst_landmark=cc"
+]
