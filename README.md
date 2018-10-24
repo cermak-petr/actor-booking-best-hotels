@@ -37,6 +37,7 @@ __currency__ preferred currency code to be set on the site.
 __language__ preferred language code to be set on the site.  
 __proxyGroup__ Apify proxy group to be used.  
 __sortBy__ sets a hotel attribute by which the results will be ordered, must be one of the following.  
+
 ```javascript
 [
     "bayesian_review_score",    // Rating
