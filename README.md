@@ -48,3 +48,22 @@ __sortBy__ sets a hotel attribute by which the results will be ordered, must be 
     "class_asc",                // Stars ascending
     "distance_from_landmark"    // Distance from city centre
 ]
+```
+
+Instead of __search__ INPUT attribute, it is also possible to start the crawler with an array of __startUrls__.  
+In such case all the other attributes modifying the URLs will still be applied, it is therefore suggested to  
+use simple urls and set all the other options using INPUT attributes instead of leaving them in the URL to  
+avoid URL parameter clashing.  
+In case the startUrl is a hotel detail page, it will be scraped. In case it is a hotel list page, the result  
+will depend on the __simple__ attribute. If it's __true__, the page will be scraped, otherwise all the links to  
+detail pages will be added to the queue and scraped afterwards.  
+The __startUrls__ attribute should cotain an array of URLs as follows:
+
+```javascript
+startUrls: [
+    "https://www.booking.com/hotel/fr/ariane-montparnasse.en-gb.html",
+    "https://www.booking.com/hotel/fr/heliosopera.en-gb.html",
+    "https://www.booking.com/hotel/fr/ritz-paris-paris.en-gb.html",
+    ...
+]
+```
