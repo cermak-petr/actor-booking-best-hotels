@@ -202,7 +202,7 @@ Apify.main(async () => {
                                 'currency': pc ? pc[0].trim() : null,
                                 'roomType': rl.length > 0 ? rl[0].textContent.trim() : null,
                                 'persons': occ ? occ : null,
-                                'location': latLng ? {lat: latLng[0], lng: latLng[1]} : null,
+                                'location': latlng ? {lat: latlng[0], lng: latlng[1]} : null,
                                 'totalFound': found,
                             };
                             if(item.rating && item.rating >= minScore){result.push(item);}
