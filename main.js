@@ -90,6 +90,7 @@ Apify.main(async () => {
             if((!request.userData || !request.userData.label) && request.url.indexOf('/hotel/') > -1){
                 request.userData = {label: 'detail'};
             }
+            request.url = addUrlParameters(request.url);
             input.startUrls[i] = request;
         }
         // create RequestList and reference startUrl
