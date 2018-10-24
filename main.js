@@ -53,10 +53,6 @@ Apify.main(async () => {
     // Main request queue.
     const requestQueue = await Apify.openRequestQueue();
     
-    // Create startURL based on provided INPUT.
-    const query = encodeURIComponent(input.search);
-    let startUrl = `https://www.booking.com/searchresults.html?dest_type=city;ss=${query}&order=${sortBy}`;
-    
     /**
      * Adds URL parameters to a Booking.com URL (timespan, language and currency).
      * @param {string} url - Booking.com URL to add the parameters to.
@@ -79,17 +75,42 @@ Apify.main(async () => {
         return url.replace('?&', '?');
     }
     
-    startUrl = addUrlParameters(startUrl);
-    
-    // Enqueue all pagination pages.
-    startUrl += '&rows=20';
-    console.log('startUrl: ' + startUrl);
-    await requestQueue.addRequest(new Apify.Request({url: startUrl, userData: {label: 'start'}}));
-    for(let i = 1; i <= 20; i++){
-        await requestQueue.addRequest(new Apify.Request({
-            url: startUrl + '&offset=' + 20*i, 
-            userData: {label: 'page'}
-        }));
+    let startUrl = undefined;
+    let requestList = undefined;
+    if(input.startUrls){
+        // check if attribute is an Array
+        if(!Array.isArray(input.startUrls)){
+            throw new Error('INPUT.startUrls must an array!');
+        }
+        // convert any inconsistencies to correct format
+        for(let i = 0; i < input.startUrls.length; i++){
+            let request = input.startUrls[i];
+            if(typeof request === 'string'){request = {url: request};}
+            if(!request.label && request.url.indexOf('/hotel/') > -1){
+                request.label = 'detail';
+            }
+            input.startUrls[i] = request;
+        }
+        // create RequestList and reference startUrl
+        requestList = new Apify.RequestList(input.startUrls);
+        startUrl = addUrlParameters('https://www.booking.com/searchresults.html?dest_type=city;ss=paris&order=bayesian_review_score');
+    }
+    else{
+        // Create startURL based on provided INPUT.
+        const query = encodeURIComponent(input.search);
+        startUrl = `https://www.booking.com/searchresults.html?dest_type=city;ss=${query}&order=${sortBy}`;
+        startUrl = addUrlParameters(startUrl);
+
+        // Enqueue all pagination pages.
+        startUrl += '&rows=20';
+        console.log('startUrl: ' + startUrl);
+        await requestQueue.addRequest(new Apify.Request({url: startUrl, userData: {label: 'start'}}));
+        for(let i = 1; i <= 20; i++){
+            await requestQueue.addRequest(new Apify.Request({
+                url: startUrl + '&offset=' + 20*i, 
+                userData: {label: 'page'}
+            }));
+        }
     }
     
     // Temporary fix, make UI proxy input compatible
@@ -130,6 +151,8 @@ Apify.main(async () => {
     
     // Main crawler variable.
     const crawler = new Apify.PuppeteerCrawler({
+        requestList,
+        
         requestQueue,
         
         maxConcurrency: input.concurrency || 10,
@@ -373,7 +396,7 @@ Apify.main(async () => {
             else{
                 // Check if the page was open through working proxy.
                 const pageUrl = await page.url();
-                if(pageUrl.indexOf(sortBy) < 0){
+                if(!input.startUrls && pageUrl.indexOf(sortBy) < 0){
                     await retireBrowser();
                     return;
                 }
