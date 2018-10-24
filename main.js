@@ -347,6 +347,14 @@ Apify.main(async () => {
                 }));
             };
             
+            if(input.startUrls){
+                const pageUrl = await page.url();
+                if(pageUrl.length < request.url){
+                    await retireBrowser();
+                    return;
+                }
+            }
+            
             // Extract data from the hotel detail page
             if(request.userData.label === 'detail'){
                 try{await page.waitForSelector('.hprt-occupancy-occupancy-info');}
