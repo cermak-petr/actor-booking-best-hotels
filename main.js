@@ -43,6 +43,7 @@ Apify.main(async () => {
     
     // Actor INPUT variable
     const input = await Apify.getValue('INPUT');
+    console.dir(input.proxyConfig);
     
     // Check if all required input attributes are present.
     if(!input.search){
