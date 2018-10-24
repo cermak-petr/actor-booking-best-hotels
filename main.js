@@ -331,6 +331,13 @@ Apify.main(async () => {
                 
                 // Extract the data.
                 const addr = ld.address;
+                const address = {
+                    full: addr.streetAddress,
+                    postalCode: addr.postalCode,
+                    street: addr.addressLocality,
+                    country: addr.addressCountry,
+                    region: addr.addressRegion
+                };
                 delete addr['@type'];
                 const name = await page.$('#hp_hotel_name');
                 const starIcon = await page.$('i.bk-icon-stars');
@@ -340,10 +347,11 @@ Apify.main(async () => {
                 await Apify.pushData({
                     url: await page.url(),
                     name: await getAttribute(name, 'textContent'),
+                    description: ld.description,
                     stars: stars ? stars[0] : null,
                     rating: ld.aggregateRating.ratingValue,
                     reviews: ld.aggregateRating.reviewCount,
-                    address: addr,
+                    address: address,
                     rooms: rooms
                 });
             }
