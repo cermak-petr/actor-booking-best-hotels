@@ -192,7 +192,6 @@ Apify.main(async () => {
                             var stars = starAttr ? starAttr.match(/\d/) : null;
                             var item = {
                                 'url': window.location.origin + $('.hotel_name_link').attr('href'),
-                                //'total': found,
                                 'name': $(sr).find('.sr-hotel__name').text().trim(),
                                 'rating': rat ? parseFloat(rat.replace(',', '.')) : null,
                                 'reviews': nReviews ? parseInt(nReviews[0]) : null,
@@ -200,7 +199,8 @@ Apify.main(async () => {
                                 'price': pr ? parseFloat(pr[0]) : null,
                                 'currency': pc ? pc[0].trim() : null,
                                 'roomType': rl.length > 0 ? rl[0].textContent.trim() : null,
-                                'persons': occ ? occ : null
+                                'persons': occ ? occ : null,
+                                'totalFound': found,
                             };
                             if(item.score && item.score >= minScore){result.push(item);}
                             if(++finished >= started){
