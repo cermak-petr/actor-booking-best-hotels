@@ -45,8 +45,8 @@ Apify.main(async () => {
     const input = await Apify.getValue('INPUT');
     
     // Check if all required input attributes are present.
-    if(!input.search){
-        throw new Error('Missing "search" attribute in INPUT!');
+    if(!input.search && !input.startUrls){
+        throw new Error('Missing "search" or "startUrls" attribute in INPUT!');
     }
     const sortBy = input.sortBy || 'bayesian_review_score';
     
