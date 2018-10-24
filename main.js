@@ -346,7 +346,7 @@ Apify.main(async () => {
                 const stars = starTitle ? starTitle.match(/\d/) : null;
                 const rooms = await extractRooms();
                 await Apify.pushData({
-                    url: await page.url(),
+                    url: (await page.url()).split('?')[0],
                     name: await getAttribute(name, 'textContent'),
                     description: ld.description,
                     stars: stars ? stars[0] : null,
