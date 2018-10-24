@@ -1,9 +1,10 @@
-# actor-booking-best-hotels
+# actor-booking-hotels
 
-Apify actor for extracting data about best hotels from Booking.com.
+Apify actor for extracting data about hotels from Booking.com.
 
 This actor extracts hotel data from Booking.com, it can either extract directly from  
-the hotel list page or navigate to the detail page to get more detailed information.
+the hotel list page or navigate to the detail page to get more detailed information.  
+The results can be ordered by any criteria supported by Booking.com.
 
 **INPUT**
 
