@@ -48,13 +48,14 @@ Apify.main(async () => {
     if(!input.search){
         throw new Error('Missing "search" attribute in INPUT!');
     }
+    const sortBy = input.sortBy || 'bayesian_review_score';
     
     // Main request queue.
     const requestQueue = await Apify.openRequestQueue();
     
     // Create startURL based on provided INPUT.
     const query = encodeURIComponent(input.search);
-    let startUrl = `https://www.booking.com/searchresults.html?dest_type=city;ss=${query}&order=bayesian_review_score`;
+    let startUrl = `https://www.booking.com/searchresults.html?dest_type=city;ss=${query}&order=${sortBy}`;
     
     /**
      * Adds URL parameters to a Booking.com URL (timespan, language and currency).
@@ -115,7 +116,7 @@ Apify.main(async () => {
             const page = await browser.newPage();
             await page.goto(startUrl);
             const pageUrl = await page.url();
-            if(pageUrl.indexOf('bayesian') > -1 || i === 999){
+            if(pageUrl.indexOf(sortBy) > -1 || i === 999){
                 console.log('valid proxy found');
                 await page.close();
                 retiring = false;
@@ -372,7 +373,7 @@ Apify.main(async () => {
             else{
                 // Check if the page was open through working proxy.
                 const pageUrl = await page.url();
-                if(pageUrl.indexOf('bayesian') < 0){
+                if(pageUrl.indexOf(sortBy) < 0){
                     await retireBrowser();
                     return;
                 }
