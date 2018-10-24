@@ -12,7 +12,7 @@
         "search": {
             "title": "Booking search query",
             "type": "string",
-            "description": "Query strin to be searched on Booking.com",
+            "description": "Query string to be searched on Booking.com",
             "default": "",
             "editor": "textfield"
         },
@@ -68,8 +68,8 @@
         "proxyConfig": {
             "title": "Proxy configuration",
             "type": "object",
-            "description": "Optionaly use Apify Proxy",
-            "default": { "userApifyProxy": true },
+            "description": "Optionally use Apify Proxy",
+            "default": { "useApifyProxy": true },
             "editor": "proxy"
         }
     },
