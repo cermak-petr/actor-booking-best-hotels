@@ -178,59 +178,59 @@ Apify.main(async () => {
                  * @param {Function} callback - Callback to be executed when the waiting is done.
                  */
                 function waitFor(condition, callback, i){
-                    var val = condition();
+                    const val = condition();
                     if(val){callback(val);}
                     else if(i > 10){callback(null);}
                     else{setTimeout(function(){waitFor(condition, callback, i ? i+1 : 1);}, 500);}
                 }
                 
                 /** Gets total number of listings. */
-                var getHeaderNumber = function(){
-                    var av = $('.availability_nr').text().trim().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var h1 = $('.sr_header h1').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var h2 = $('.sr_header h2').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var h4 = $('#results_prev_next h4').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var fd = $('#sr-filter-descr').text().replace(/(\s|\.|,)+/g, '').match(/(\d+)de/);
+                const getHeaderNumber = function(){
+                    const av = $('.availability_nr').text().trim().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const h1 = $('.sr_header h1').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const h2 = $('.sr_header h2').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const h4 = $('#results_prev_next h4').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const fd = $('#sr-filter-descr').text().replace(/(\s|\.|,)+/g, '').match(/(\d+)de/);
                     return av ? av[0] : (h1 ? h1[0] : (h2 ? h2[0] : (h4 ? h4[0] : (fd ? fd[1] : null))));
                 }
                 
                 // Extract listing data.
-                var result = [];
-                var num = getHeaderNumber();
-                var items = $('.sr_item');//$('.sr_item').eq(0).nextUntil('.sr_separator').addBack();
+                const result = [];
+                const num = getHeaderNumber();
+                const items = $('.sr_item');//$('.sr_item').eq(0).nextUntil('.sr_separator').addBack();
                 console.log('items: ' + items.length);
-                var started = 0;
-                var finished = 0;
+                let started = 0;
+                let finished = 0;
                 
                 // Iterate all items
                 items.each(function(index, sr){
-                    var jThis = $(this);
-                    var n1 = jThis.find('.score_from_number_of_reviews').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var n2 = jThis.find('.review-score-widget__subtext').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var n3 = jThis.find('.bui-review-score__text').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
-                    var nReviews = n1 || n2 || n3;
+                    const jThis = $(this);
+                    const n1 = jThis.find('.score_from_number_of_reviews').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const n2 = jThis.find('.review-score-widget__subtext').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const n3 = jThis.find('.bui-review-score__text').text().replace(/(\s|\.|,)+/g, '').match(/\d+/);
+                    const nReviews = n1 || n2 || n3;
                     if(true){
                         ++started;
                         sr.scrollIntoView();
-                        var getPrice = function(){
+                        const getPrice = function(){
                             return $(sr).find(':not(strong).site_price, .totalPrice, strong.price');
                         }
                         
                         // When the price is ready, extract data.
                         waitFor(function(){return getPrice().length > 0;}, function(){
-                            var occ = jThis.find('.sr_max_occupancy i').length;
-                            var rl = jThis.find('.room_link').contents();
-                            var prtxt = getPrice().eq(0).text().trim().replace(/\,|\s/g, '');
-                            var pr = prtxt.match(/\d+/);
-                            var pc = prtxt.match(/[^\d]+/);
-                            var rat = $(sr).attr('data-score');
-                            var found = num ? parseInt(num) : null;
-                            var starAttr = jThis.find('i.star_track svg').attr('class');
-                            var stars = starAttr ? starAttr.match(/\d/) : null;
-                            var loc = jThis.find('.district_link').attr('data-coords');
-                            var latlng = loc ? loc.split(',') : null;
-                            var url = window.location.origin + jThis.find('.hotel_name_link').attr('href').replace(/\n/g, '');
-                            var item = {
+                            const occ = jThis.find('.sr_max_occupancy i').length;
+                            const rl = jThis.find('.room_link').contents();
+                            const prtxt = getPrice().eq(0).text().trim().replace(/\,|\s/g, '');
+                            const pr = prtxt.match(/\d+/);
+                            const pc = prtxt.match(/[^\d]+/);
+                            const rat = $(sr).attr('data-score');
+                            const found = num ? parseInt(num) : null;
+                            const starAttr = jThis.find('i.star_track svg').attr('class');
+                            const stars = starAttr ? starAttr.match(/\d/) : null;
+                            const loc = jThis.find('.district_link').attr('data-coords');
+                            const latlng = loc ? loc.split(',') : null;
+                            const url = window.location.origin + jThis.find('.hotel_name_link').attr('href').replace(/\n/g, '');
+                            const item = {
                                 'url': url.split('?')[0],
                                 'name': $(sr).find('.sr-hotel__name').text().trim(),
                                 'rating': rat ? parseFloat(rat.replace(',', '.')) : null,
