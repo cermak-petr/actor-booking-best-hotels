@@ -72,6 +72,8 @@ Apify.main(async () => {
             const lng = input.language.replace('_','-');
             url += `&lang=${lng}`;
         }
+        if(input.adults){url += '&group_adults=' + input.adults;}
+        if(input.children){url += '&group_children=' + input.children;}
         return url.replace('?&', '?');
     }
     
