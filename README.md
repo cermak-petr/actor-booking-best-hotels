@@ -19,6 +19,8 @@ Input is a JSON object with the following properties:
     "concurrency": MAXIMUM_CONCURRENT_PAGES,
     "checkIn": CHECK_IN_DATE, 
     "checkOut": CHECK_OUT_DATE, 
+    "adults": NUMBER_OF_ADULTS,
+    "children": NUMBER_OF_CHILDREN,
     "currency": PREFERRED_CURRENCY,
     "language": PREFERRED_LANGUAGE,
     "proxyGroup": PROXY_GROUP,
@@ -33,6 +35,8 @@ __maxPages__ sets maximum number of pagination pages to be crawled.
 __concurrency__ sets maximum number of parallel open browser pages.  
 __checkIn__ check-in date in the mm-dd-yyyy format.  
 __checkOut__ check-out date in the mm-dd-yyyy format.  
+__adults__ number of adults to be set for the search.  
+__children__ number of children to be set for the search.  
 __currency__ preferred currency code to be set on the site.  
 __language__ preferred language code to be set on the site.  
 __proxyGroup__ Apify proxy group to be used.  
