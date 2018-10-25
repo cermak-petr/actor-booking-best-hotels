@@ -335,7 +335,8 @@ Apify.main(async () => {
                     if(cond.length > 0){
                         room.conditions = [];
                         for(const c of cond){
-                            room.conditions.push(await getAttribute(c, 'textContent'));
+                            const cText = await getAttribute(c, 'textContent');
+                            room.conditions.push(cText.replace(/(\n|\s)+/g, ' '));
                         }
                     }
                     await rooms.push(room);
