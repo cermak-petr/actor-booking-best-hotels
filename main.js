@@ -151,6 +151,9 @@ Apify.main(async () => {
         }
     }
     
+    // Simulated browser chache
+    const cache = {};
+    
     // Main crawler variable.
     const crawler = new Apify.PuppeteerCrawler({
         requestList,
@@ -445,7 +448,7 @@ Apify.main(async () => {
         gotoFunction: async ({ page, request }) => {
         	await page.setRequestInterception(true);
             
-            page.on('request', (request) => {
+            page.on('request', async (request) => {
                 const url = request.url();
                 if (url.includes('.js')) request.abort();
                 else if (url.includes('.png')) request.abort();
@@ -459,7 +462,33 @@ Apify.main(async () => {
                 else if (url.includes('secure.booking.com')) request.abort();
                 else if (url.includes('booking.com/logo')) request.abort();
                 else if (url.includes('booking.com/navigation_times')) request.abort();
-                else{request.continue();}
+                else{
+                    // Return cached response if available
+                    if(cache[url] && cache[url].expires > Date.now()){
+                        await request.respond(cache[url]);
+                        return;
+                    }
+                    request.continue();
+                }
+            });
+            
+            // Cache responses for future needs
+            page.on('response', async (response) => {
+                const url = response.url();
+                const headers = response.headers();
+                const cacheControl = headers['cache-control'] || '';
+                const maxAgeMatch = cacheControl.match(/max-age=(\d+)/);
+                const maxAge = maxAgeMatch && maxAgeMatch.length > 1 ? parseInt(maxAgeMatch[1], 10) : 0;
+                if (maxAge && input.cacheResponses) {
+                    if (!cache[url] || cache[url].expires > Date.now()) return;
+
+                    cache[url] = {
+                        status: response.status(),
+                        headers: response.headers(),
+                        body: buffer,
+                        expires: Date.now() + (maxAge * 1000),
+                    };
+                }
             });
         	
         	// Hide WebDriver and return new page.
