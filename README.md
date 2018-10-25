@@ -29,8 +29,8 @@ Input is a JSON object with the following properties:
 __search__ is the only required attribute. This is the Booking.com search query.  
 __simple__ defines if the data should be extracted just from the list page, default is __false__.  
 __minScore__ specifies the minimum allowed rating of the hotel to be included in results, default is __8.4__.  
-__maxPages__ sets maximum nuber of pagination pages to be crawled.  
-__concurrency__ sets maximum nuber of parallel open browser pages.  
+__maxPages__ sets maximum number of pagination pages to be crawled.  
+__concurrency__ sets maximum number of parallel open browser pages.  
 __checkIn__ check-in date in the mm-dd-yyyy format.  
 __checkOut__ check-out date in the mm-dd-yyyy format.  
 __currency__ preferred currency code to be set on the site.  
