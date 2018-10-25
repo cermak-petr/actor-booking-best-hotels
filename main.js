@@ -320,6 +320,7 @@ Apify.main(async () => {
                     const prict = priceE ? await getAttribute(priceE, 'textContent') : null;
                     const priceT = priceE ? (await getAttribute(priceE, 'textContent')).replace(/\s|,/g, '').match(/(\d|\.)+/) : null;
                     const priceC = priceE ? (await getAttribute(priceE, 'textContent')).replace(/\s|,/g, '').match(/[^\d\.]+/) : null;
+                    const cond = await row.$$('.hprt-conditions li');
                     
                     const room = {available: true};
                     if(roomType){room.roomType = await getAttribute(roomType, 'textContent');}
@@ -331,6 +332,12 @@ Apify.main(async () => {
                         room.features = features;
                     }
                     else{room.available = false;}
+                    if(cond.length > 0){
+                        room.conditions = [];
+                        for(const c of cond){
+                            room.conditions.push(await getAttribute(c, 'textContent'));
+                        }
+                    }
                     await rooms.push(room);
                 }
                 return rooms;
