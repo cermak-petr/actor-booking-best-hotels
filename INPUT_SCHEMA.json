@@ -75,6 +75,20 @@
             "default": "",
             "editor": "textfield"
         },
+        "adults": {
+            "title": "Number of adults",
+            "type": "integer",
+            "description": "Number of adults for the search",
+            "default": 2,
+            "maximum": 50
+        },
+        "children": {
+            "title": "Number of children",
+            "type": "integer",
+            "description": "Number of children for the search",
+            "default": 0,
+            "maximum": 50
+        },
         "currency": {
             "title": "Preferred currency",
             "type": "string",
