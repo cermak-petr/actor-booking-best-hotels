@@ -20,6 +20,7 @@ Input is a JSON object with the following properties:
     "concurrency": MAXIMUM_CONCURRENT_PAGES,
     "checkIn": CHECK_IN_DATE, 
     "checkOut": CHECK_OUT_DATE, 
+    "rooms": NUMBER_OF_ROOMS,
     "adults": NUMBER_OF_ADULTS,
     "children": NUMBER_OF_CHILDREN,
     "currency": PREFERRED_CURRENCY,
@@ -37,6 +38,7 @@ __maxPages__ sets maximum number of pagination pages to be crawled.
 __concurrency__ sets maximum number of parallel open browser pages.  
 __checkIn__ check-in date in the mm-dd-yyyy format.  
 __checkOut__ check-out date in the mm-dd-yyyy format.  
+__rooms__ number of rooms to be set for the search.  
 __adults__ number of adults to be set for the search.  
 __children__ number of children to be set for the search.  
 __currency__ preferred currency code to be set on the site.  
