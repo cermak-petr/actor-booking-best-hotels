@@ -446,7 +446,7 @@ Apify.main(async () => {
                     else{
                         console.log('enqueuing pagination pages...');
                         const filter = await getAttribute(filtered, 'textContent');
-                        await enqueueLinks(page, requestQueue, '.bui-pagination__link', null, 'page', fixUrl('&'), async link => {
+                        await enqueueLinks(page, requestQueue, '.sr_pagination_link', null, 'page', fixUrl('&'), async link => {
                             const lText = await getAttribute(link, 'textContent');
                             return filter + '_' + lText;
                         });
@@ -469,7 +469,9 @@ Apify.main(async () => {
                 // If not, enqueue the detail pages to be extracted.
                 else if(!input.useFilters || await isFiltered(page)){
                     console.log('enqueuing detail pages...');
-                    await enqueueLinks(page, requestQueue, '.hotel_name_link', null, 'detail', fixUrl('&'));
+                    await enqueueLinks(page, requestQueue, '.hotel_name_link', null, 'detail', fixUrl('&'), async link => {
+                        return await getAttribute(link, 'textContent');
+                    });
                 }
             }
         },
