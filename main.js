@@ -501,7 +501,7 @@ Apify.main(async () => {
         
         // Function for ignoring all unnecessary requests.
         gotoFunction: async ({ page, request }) => {
-        	await page.setRequestInterception(true);
+            await page.setRequestInterception(true);
             
             page.on('request', async (request) => {
                 const url = request.url();
@@ -547,8 +547,8 @@ Apify.main(async () => {
             });
         	
         	// Hide WebDriver and return new page.
-        	await Apify.utils.puppeteer.hideWebDriver(page);
-        	return await page.goto(request.url, {timeout: 200000});
+            await Apify.utils.puppeteer.hideWebDriver(page);
+            return await page.goto(request.url, {timeout: 200000});
         }
     });
     
