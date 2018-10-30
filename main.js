@@ -47,6 +47,10 @@ Apify.main(async () => {
     // Actor STATE variable
     const state = await Apify.getValue('STATE') || {crawled: {}};
     
+    // Migrating flag
+    let migrating = false;
+    Apify.events.on('migrating', data => {migrating = true;});
+    
     // Check if all required input attributes are present.
     if(!input.search && !input.startUrls){
         throw new Error('Missing "search" or "startUrls" attribute in INPUT!');
@@ -469,7 +473,7 @@ Apify.main(async () => {
                             }
                         }
                         await Apify.pushData(result);
-                        await Apify.setValue('STATE', state);
+                        if(migrating){await Apify.setValue('STATE', state);}
                     }
                 }
                 
