@@ -444,7 +444,7 @@ Apify.main(async () => {
                         console.log('enqueuing pagination pages...');
                         const filter = await getAttribute(filtered, 'textContent');
                         await enqueueLinks(page, requestQueue, '.bui-pagination__link', null, 'page', fixUrl('&'), link => {
-                            const lText = getAttribute(link, 'textContent');
+                            const lText = await getAttribute(link, 'textContent');
                             return filter + '_' + lText;
                         });
                     }
