@@ -81,6 +81,7 @@ Apify.main(async () => {
         }
         if(input.adults){url += '&group_adults=' + input.adults;}
         if(input.children){url += '&group_children=' + input.children;}
+        if(input.rooms){url += '&no_rooms=' + input.rooms;}
         return url.replace('?&', '?');
     }
     
