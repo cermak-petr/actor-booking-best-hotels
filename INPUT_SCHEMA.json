@@ -9,6 +9,12 @@
             "description": "Extract hotel list pages only (no detail)",
             "default": true
         },
+        "useFilters": {
+            "title": "Use filters",
+            "type": "boolean",
+            "description": "Use criteria filters (necessary for more than 1000 results)",
+            "default": false
+        },
         "search": {
             "title": "Booking search query",
             "type": "string",
