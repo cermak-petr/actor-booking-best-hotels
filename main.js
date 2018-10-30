@@ -276,7 +276,7 @@ Apify.main(async () => {
             
             /** 
              * Creates a function to make sure the URL contains all necessary attributes from INPUT.
-             * @param {strins} s - The URL attribute separator (& or ;).
+             * @param {string} s - The URL attribute separator (& or ;).
              */
             const fixUrl = s => href => {
                 href = href.replace(/#([a-zA-Z_]+)/g, '');
@@ -290,7 +290,7 @@ Apify.main(async () => {
                 if(input.currency && href.indexOf('currency') < 0){
                     href += `${s}selected_currency=${input.currency.toUpperCase()}${s}changed_currency=1${s}top_currency=1`;
                 }
-                return href;
+                return href.replace(/&{n,}/g, '&').replace('?&', '?');
             };
             
             console.log('open url: ' + await page.url());
