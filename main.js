@@ -172,18 +172,18 @@ Apify.main(async () => {
         handlePageFunction: async ({ page, request, puppeteerPool }) => {
             
             /** 
+              * Checks if page has some criteria filtering enabled.
+              * @param {Page} page - The page to be checked.
+              */
+            const isFiltered = async page => await page.$('.filterelement.active');
+            
+            /** 
              * Extracts data from a hotel list page.
              * @param {Number} minScore - Minimum score for a hotel to be listed.
              */
             const listPageFunction = (minScore) => new Promise((resolve, reject) => {
    
                 const $ = jQuery;
-               
-                /** 
-                 * Checks if page has some criteria filtering enabled.
-                 * @param {Page} page - The page to be checked.
-                 */
-                const isFiltered = async page => await page.$('.filterelement.active');
    
                 /** 
                  * Waits for a condition to be non-false.
