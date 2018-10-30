@@ -14,6 +14,7 @@ Input is a JSON object with the following properties:
 {
     "search": SEARCH_QUERY,
     "simple": EXTRACT_FROM_LIST,
+    "useFilters": USE_CRITERIA_FILTERING,
     "minScore": MINIMUM_HOTEL_RATING,
     "maxPages": MAXIMUM_PAGINATION_PAGES,
     "concurrency": MAXIMUM_CONCURRENT_PAGES,
@@ -30,6 +31,7 @@ Input is a JSON object with the following properties:
 
 __search__ is the only required attribute. This is the Booking.com search query.  
 __simple__ defines if the data should be extracted just from the list page, default is __false__.  
+__useFilters__ sets if the crawler should utilize criteria filters to overcome the limit for 1000 results.  
 __minScore__ specifies the minimum allowed rating of the hotel to be included in results, default is __8.4__.  
 __maxPages__ sets maximum number of pagination pages to be crawled.  
 __concurrency__ sets maximum number of parallel open browser pages.  
