@@ -187,9 +187,9 @@ Apify.main(async () => {
             
             /** 
              * Extracts data from a hotel list page.
-             * @param {Number} minScore - Minimum score for a hotel to be listed.
+             * @param {Object} input - The actor INPUT variable.
              */
-            const listPageFunction = (minScore) => new Promise((resolve, reject) => {
+            const listPageFunction = (input) => new Promise((resolve, reject) => {
    
                 const $ = jQuery;
    
@@ -261,13 +261,11 @@ Apify.main(async () => {
                                 'currency': pc ? pc[0].trim() : null,
                                 'roomType': rl.length > 0 ? rl[0].textContent.trim() : null,
                                 'persons': occ ? occ : null,
-                                'location': latlng ? {lat: latlng[0], lng: latlng[1]} : null,
-                                'totalFound': found,
+                                'location': latlng ? {lat: latlng[0], lng: latlng[1]} : null
                             };
-                            if(item.rating && item.rating >= minScore){result.push(item);}
-                            if(++finished >= started){
-                                resolve(result.sort((a, b) => a - b));
-                            }
+                            if(!input.useFilters){item.totalFound = found;}
+                            if(item.rating && item.rating >= (input.minScore || 8.4)){result.push(item);}
+                            if(++finished >= started){resolve(result);}
                         });
                     }
                     else{resolve([]);}
@@ -465,7 +463,7 @@ Apify.main(async () => {
                 if(input.simple){
                     console.log('extracting data...');
                     await Apify.utils.puppeteer.injectJQuery(page);
-                    const result = await page.evaluate(listPageFunction, input.minScore || 8.4);
+                    const result = await page.evaluate(listPageFunction, input);
                     if(result.length > 0){
                         const toBeAdded = [];
                         for(const item of result){
