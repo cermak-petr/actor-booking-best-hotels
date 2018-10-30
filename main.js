@@ -180,9 +180,9 @@ Apify.main(async () => {
         handlePageFunction: async ({ page, request, puppeteerPool }) => {
             
             /** 
-              * Checks if page has some criteria filtering enabled.
-              * @param {Page} page - The page to be checked.
-              */
+             * Checks if page has some criteria filtering enabled.
+             * @param {Page} page - The page to be checked.
+             */
             const isFiltered = async page => await page.$('.filterelement.active');
             
             /** 
