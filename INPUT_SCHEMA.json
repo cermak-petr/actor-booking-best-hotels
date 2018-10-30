@@ -81,6 +81,13 @@
             "default": "",
             "editor": "textfield"
         },
+        "rooms": {
+            "title": "Number of rooms",
+            "type": "integer",
+            "description": "Number of rooms for the search",
+            "default": 1,
+            "maximum": 50
+        },
         "adults": {
             "title": "Number of adults",
             "type": "integer",
