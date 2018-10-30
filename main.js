@@ -438,7 +438,10 @@ Apify.main(async () => {
                     const filtered = await isFiltered(page);
                     if(!filtered){
                         console.log('enqueuing filtered pages...');
-                        await enqueueLinks(page, requestQueue, '.filterelement', null, 'page', fixUrl('&'));
+                        await enqueueLinks(page, requestQueue, '.filterelement', null, 'page', fixUrl('&'), async link => {
+                            const lText = await getAttribute(link, 'textContent');
+                            return lText + '_' + 0;
+                        });
                     }
                     else{
                         console.log('enqueuing pagination pages...');
