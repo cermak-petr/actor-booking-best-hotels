@@ -466,14 +466,16 @@ Apify.main(async () => {
                     await Apify.utils.puppeteer.injectJQuery(page);
                     const result = await page.evaluate(listPageFunction, input.minScore || 8.4);
                     if(result.length > 0){
+                        const toBeAdded = [];
                         for(const item of result){
                             item.url = addUrlParameters(item.url);
                             if(!state.crawled[item.name]){
+                                toBeAdded.push(item);
                                 state.crawled[item.name] = true;
                             }
                         }
-                        await Apify.pushData(result);
                         if(migrating){await Apify.setValue('STATE', state);}
+                        if(toBeAdded.length > 0){await Apify.pushData(toBeAdded);}
                     }
                 }
                 
