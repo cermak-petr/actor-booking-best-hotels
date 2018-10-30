@@ -44,6 +44,9 @@ Apify.main(async () => {
     // Actor INPUT variable
     const input = await Apify.getValue('INPUT');
     
+    // Actor STATE variable
+    const state = await Apify.getValue('STATE') || {crawled: {}};
+    
     // Check if all required input attributes are present.
     if(!input.search && !input.startUrls){
         throw new Error('Missing "search" or "startUrls" attribute in INPUT!');
@@ -461,8 +464,12 @@ Apify.main(async () => {
                     if(result.length > 0){
                         for(const item of result){
                             item.url = addUrlParameters(item.url);
+                            if(!state.crawled[item.name]){
+                                state.crawled[item.name] = true;
+                            }
                         }
                         await Apify.pushData(result);
+                        await Apify.setValue('STATE', state);
                     }
                 }
                 
