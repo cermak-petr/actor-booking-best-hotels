@@ -109,11 +109,13 @@ Apify.main(async () => {
         startUrl += '&rows=20';
         console.log('startUrl: ' + startUrl);
         await requestQueue.addRequest(new Apify.Request({url: startUrl, userData: {label: 'start'}}));
-        for(let i = 1; i <= 20; i++){
-            await requestQueue.addRequest(new Apify.Request({
-                url: startUrl + '&offset=' + 20*i, 
-                userData: {label: 'page'}
-            }));
+        if(!input.useFilters){
+            for(let i = 1; i <= 20; i++){
+                await requestQueue.addRequest(new Apify.Request({
+                    url: startUrl + '&offset=' + 20*i, 
+                    userData: {label: 'page'}
+                }));
+            }
         }
     }
     
@@ -176,6 +178,12 @@ Apify.main(async () => {
             const listPageFunction = (minScore) => new Promise((resolve, reject) => {
    
                 const $ = jQuery;
+               
+                /** 
+                 * Checks if page has some criteria filtering enabled.
+                 * @param {Page} page - The page to be checked.
+                 */
+                const isFiltered = async page => await page.$('.filterelement.active');
    
                 /** 
                  * Waits for a condition to be non-false.
@@ -425,6 +433,23 @@ Apify.main(async () => {
                     return;
                 }
                 
+                // If filtering is enabled, enqueue necessary pages.
+                if(input.useFilters){
+                    const filtered = await isFiltered(page);
+                    if(!filtered){
+                        console.log('enqueuing filtered pages...');
+                        await enqueueLinks(page, requestQueue, '.filterelement', null, 'page', fixUrl('&'));
+                    }
+                    else{
+                        console.log('enqueuing pagination pages...');
+                        const filter = await getAttribute(filtered, 'textContent');
+                        await enqueueLinks(page, requestQueue, '.bui-pagination__link', null, 'page', fixUrl('&'), link => {
+                            const lText = getAttribute(link, 'textContent');
+                            return filter + '_' + lText;
+                        });
+                    }
+                }
+                
                 // If simple output is enough, extract the data.
                 if(input.simple){
                     console.log('extracting data...');
@@ -437,8 +462,9 @@ Apify.main(async () => {
                         await Apify.pushData(result);
                     }
                 }
+                
                 // If not, enqueue the detail pages to be extracted.
-                else{
+                else if(!input.useFilters || await isFiltered(page)){
                     console.log('enqueuing detail pages...');
                     await enqueueLinks(page, requestQueue, '.hotel_name_link', null, 'detail', fixUrl('&'));
                 }
