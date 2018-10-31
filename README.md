@@ -35,7 +35,6 @@ Input is a JSON object with the following properties:
 * `useFilters` sets if the crawler should utilize criteria filters to overcome the limit for 1000 results.  
 * `minScore` specifies the minimum allowed rating of the hotel to be included in results, default is `8.4`.  
 * `maxPages` sets maximum number of pagination pages to be crawled.  
-* `concurrency` sets maximum number of parallel open browser pages.  
 * `checkIn` check-in date in the mm-dd-yyyy format.  
 * `checkOut` check-out date in the mm-dd-yyyy format.  
 * `rooms` number of rooms to be set for the search.  
