@@ -4,15 +4,15 @@
     "schemaVersion": 1,
     "properties": {
         "simple": {
-            "title": "Simple scrape",
+            "title": "Extract hotel list pages only (no detail)",
             "type": "boolean",
-            "description": "Extract hotel list pages only (no detail)",
+            "description": "The crawler will get only the data available on the list page and not go to the hotel detail page.",
             "default": true
         },
         "useFilters": {
-            "title": "Use filters",
+            "title": "Use criteria filters (necessary for more than 1000 results)",
             "type": "boolean",
-            "description": "Use criteria filters (necessary for more than 1000 results)",
+            "description": "The crawler will enqueue all the different criteria filtered pages, this will overcome the 1000 results limit, but the scrape will take significantly longer",
             "default": false
         },
         "search": {
