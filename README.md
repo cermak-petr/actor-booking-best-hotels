@@ -6,7 +6,7 @@ This actor extracts hotel data from Booking.com, it can either extract directly 
 the hotel list page or navigate to the detail page to get more detailed information.  
 The results can be ordered by any criteria supported by Booking.com.
 
-**INPUT**
+## Input attributes
 
 Input is a JSON object with the following properties:
 
@@ -57,6 +57,7 @@ Input is a JSON object with the following properties:
     "distance_from_landmark"    // Distance from city centre
 ]
 ```
+## Starting with URLs
 
 Instead of `search` INPUT attribute, it is also possible to start the crawler with an array of `startUrls`.  
 In such case all the other attributes modifying the URLs will still be applied, it is therefore suggested to  
