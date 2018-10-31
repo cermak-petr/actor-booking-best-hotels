@@ -30,21 +30,21 @@ Input is a JSON object with the following properties:
 }
 ```
 
-__search__ is the only required attribute. This is the Booking.com search query.  
-__simple__ defines if the data should be extracted just from the list page, default is __false__.  
-__useFilters__ sets if the crawler should utilize criteria filters to overcome the limit for 1000 results.  
-__minScore__ specifies the minimum allowed rating of the hotel to be included in results, default is __8.4__.  
-__maxPages__ sets maximum number of pagination pages to be crawled.  
-__concurrency__ sets maximum number of parallel open browser pages.  
-__checkIn__ check-in date in the mm-dd-yyyy format.  
-__checkOut__ check-out date in the mm-dd-yyyy format.  
-__rooms__ number of rooms to be set for the search.  
-__adults__ number of adults to be set for the search.  
-__children__ number of children to be set for the search.  
-__currency__ preferred currency code to be set on the site.  
-__language__ preferred language code to be set on the site.  
-__proxyGroup__ Apify proxy group to be used.  
-__sortBy__ sets a hotel attribute by which the results will be ordered, must be one of the following.
+* `search` is the only required attribute. This is the Booking.com search query.  
+* `simple` defines if the data should be extracted just from the list page, default is `false`.  
+* `useFilters` sets if the crawler should utilize criteria filters to overcome the limit for 1000 results.  
+* `minScore` specifies the minimum allowed rating of the hotel to be included in results, default is `8.4`.  
+* `maxPages` sets maximum number of pagination pages to be crawled.  
+* `concurrency` sets maximum number of parallel open browser pages.  
+* `checkIn` check-in date in the mm-dd-yyyy format.  
+* `checkOut` check-out date in the mm-dd-yyyy format.  
+* `rooms` number of rooms to be set for the search.  
+* `adults` number of adults to be set for the search.  
+* `children` number of children to be set for the search.  
+* `currency` preferred currency code to be set on the site.  
+* `language` preferred language code to be set on the site.  
+* `proxyGroup` Apify proxy group to be used.  
+* `sortBy` sets a hotel attribute by which the results will be ordered, must be one of the following.
 
 ```javascript
 [
@@ -58,14 +58,14 @@ __sortBy__ sets a hotel attribute by which the results will be ordered, must be 
 ]
 ```
 
-Instead of __search__ INPUT attribute, it is also possible to start the crawler with an array of __startUrls__.  
+Instead of `search` INPUT attribute, it is also possible to start the crawler with an array of `startUrls`.  
 In such case all the other attributes modifying the URLs will still be applied, it is therefore suggested to  
 use simple urls and set all the other options using INPUT attributes instead of leaving them in the URL to  
 avoid URL parameter clashing.  
 In case the startUrl is a hotel detail page, it will be scraped. In case it is a hotel list page, the result  
-will depend on the __simple__ attribute. If it's __true__, the page will be scraped, otherwise all the links to  
+will depend on the `simple` attribute. If it's `true`, the page will be scraped, otherwise all the links to  
 detail pages will be added to the queue and scraped afterwards.  
-The __startUrls__ attribute should cotain an array of URLs as follows:
+The `startUrls` attribute should cotain an array of URLs as follows:
 
 ```javascript
 startUrls: [
