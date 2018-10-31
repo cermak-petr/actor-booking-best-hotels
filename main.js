@@ -172,8 +172,6 @@ Apify.main(async () => {
         
         requestQueue,
         
-        maxConcurrency: input.concurrency || 10,
-        
         launchPuppeteerFunction: getWorkingBrowser,
         
         // Main page handling function.
