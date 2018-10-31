@@ -5,6 +5,11 @@ Apify actor for extracting data about hotels from Booking.com.
 This actor extracts hotel data from Booking.com, it can either extract directly from  
 the hotel list page or navigate to the detail page to get more detailed information.  
 The results can be ordered by any criteria supported by Booking.com.  
+  
+Since Booking.com allows only 1000 search results, in case you need to download more,
+you will need to utilize the `useFilters` attribute to tell the crawler to enqueue all  
+the criteria filtered pages. This will overcome the limit, but will significantly  
+increase the crawling time.
 
 ## Input attributes
 
