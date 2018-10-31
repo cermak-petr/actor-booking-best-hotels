@@ -1,8 +1,8 @@
 
 { 
-  "name": "actor-booking-best-hotels",
+  "name": "actor-booking-hotels",
   "version": "1.0.0",
-  "description": "actor-booking-best-hotels.",
+  "description": "actor-booking-hotels.",
   "main": "main.js",
   "license": "Apache-2.0",
   "repository": {
