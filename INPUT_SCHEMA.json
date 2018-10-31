@@ -12,7 +12,7 @@
         "useFilters": {
             "title": "Use criteria filters (necessary for more than 1000 results)",
             "type": "boolean",
-            "description": "The crawler will enqueue all the different criteria filtered pages, this will overcome the 1000 results limit, but the scrape will take significantly longer",
+            "description": "The crawler will enqueue all the different criteria filtered pages, this will overcome the 1000 results limit, but the scrape will take significantly longer.",
             "default": false
         },
         "search": {
@@ -59,13 +59,6 @@
             "description": "Number of pagination pages to be crawled",
             "default": 20,
             "maximum": 1000000
-        },
-        "concurrency": {
-            "title": "Maximum concurrency",
-            "type": "integer",
-            "description": "Maximum number of parallel browser pages",
-            "default": 10,
-            "maximum": 50
         },
         "checkIn": {
             "title": "Check-in date (mm-dd-yyyy)",
