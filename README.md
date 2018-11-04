@@ -29,8 +29,8 @@ Input is a JSON object with the following properties:
     "children": NUMBER_OF_CHILDREN,
     "currency": PREFERRED_CURRENCY,
     "language": PREFERRED_LANGUAGE,
-    "proxyGroup": PROXY_GROUP,
-    "sortBy": BOOKING_SORT_TYPE
+    "sortBy": BOOKING_SORT_TYPE,
+    "proxyConfig": APIFY_PROXY_CONFIG
 }
 ```
 
@@ -46,9 +46,17 @@ Input is a JSON object with the following properties:
 * `children` number of children to be set for the search.  
 * `currency` preferred currency code to be set on the site.  
 * `language` preferred language code to be set on the site.  
-* `proxyGroup` Apify proxy group to be used.  
+* `proxyConfig` defines Apify proxy configuration, it should respect this format:  
+```javascript
+"proxyConfig": [
+    "useApifyProxy": true,
+    "apifyProxyGroups": [
+        "RESIDENTIAL",
+        ...
+    ]
+]
+```  
 * `sortBy` sets a hotel attribute by which the results will be ordered, must be one of the following.
-
 ```javascript
 [
     "bayesian_review_score",    // Rating
