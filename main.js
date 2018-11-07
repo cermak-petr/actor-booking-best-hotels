@@ -145,6 +145,7 @@ Apify.main(async () => {
     
     /** Finds a browser instance with working proxy for Booking.com. */
     async function getWorkingBrowser(){
+        if(!input.testProxy){return await launchPuppeteer();}
         for(let i = 0; i < 1000; i++){
             console.log('testing proxy...');
             const browser = await launchPuppeteer();
@@ -375,7 +376,7 @@ Apify.main(async () => {
             // Check if startUrl was open correctly 
             if(input.startUrls){
                 const pageUrl = await page.url();
-                if(pageUrl.length < request.url){
+                if(pageUrl.length < request.url.length){
                     await retireBrowser();
                     return;
                 }
