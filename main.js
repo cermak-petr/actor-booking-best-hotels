@@ -263,7 +263,7 @@ Apify.main(async () => {
                                 'location': latlng ? {lat: latlng[0], lng: latlng[1]} : null
                             };
                             if(!input.useFilters){item.totalFound = found;}
-                            if(item.rating && item.rating >= (input.minScore || 8.4)){result.push(item);}
+                            if(item.rating && item.rating >= (input.minScore || 0)){result.push(item);}
                             if(++finished >= started){resolve(result);}
                         });
                     }
@@ -398,7 +398,7 @@ Apify.main(async () => {
                 }
                 
                 // Exit if core data is not present ot the rating is too low.
-                if(!ld || !ld.aggregateRating || ld.aggregateRating.ratingValue <= (input.minScore || 8.4)){
+                if(!ld || !ld.aggregateRating || ld.aggregateRating.ratingValue <= (input.minScore || 0)){
                     return;
                 }
                 
