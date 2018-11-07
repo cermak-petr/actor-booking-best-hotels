@@ -96,7 +96,7 @@ Apify.main(async () => {
         for(let i = 0; i < input.startUrls.length; i++){
             let request = input.startUrls[i];
             if(typeof request === 'string'){request = {url: request};}
-            if((!request.userData || !request.userData.label) && request.url.indexOf('/hotel/') > -1){
+            if((!request.userData || !request.userData.label !== 'detail') && request.url.indexOf('/hotel/') > -1){
                 request.userData = {label: 'detail'};
             }
             request.url = addUrlParameters(request.url);
@@ -290,7 +290,7 @@ Apify.main(async () => {
                 return href.replace(/&{n,}/g, '&').replace('?&', '?');
             };
             
-            console.log('open url: ' + await page.url());
+            console.log('open url(' + request.userData.label + '): ' + await page.url());
             
             /** Extracts information about all rooms listed by the hotel. */
             const extractRooms = async () => {
