@@ -390,6 +390,8 @@ Apify.main(async () => {
                 const ldElem = await page.$('script[type="application/ld+json"]');
                 const ld = JSON.parse(await getAttribute(ldElem, 'textContent'));
                 
+                console.dir(ld.aggregateRating.ratingValue);
+                console.dir(input.minScore || 0);
                 console.dir(ld.aggregateRating.ratingValue <= (input.minScore || 0));
                 
                 // Check if the page was open through working proxy.
