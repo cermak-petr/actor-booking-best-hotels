@@ -390,7 +390,7 @@ Apify.main(async () => {
                 const ldElem = await page.$('script[type="application/ld+json"]');
                 const ld = JSON.parse(await getAttribute(ldElem, 'textContent'));
                 
-                console.log((ldElem ? 'ldel' : 0) + (ld ? 'ld' : 0));
+                console.dir(ld);
                 
                 // Check if the page was open through working proxy.
                 const pageUrl = await page.url();
