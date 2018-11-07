@@ -19,7 +19,7 @@
             "title": "Booking search query",
             "type": "string",
             "description": "Query string to be searched on Booking.com",
-            "default": "",
+            "prefill": "Paris",
             "editor": "textfield"
         },
         "sortBy": {
@@ -50,7 +50,6 @@
             "title": "Minimum rating",
             "type": "string",
             "description": "Minimum rating of a hotel",
-            "default": "8.4",
             "editor": "textfield"
         },
         "maxPages": {
