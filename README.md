@@ -81,10 +81,15 @@ detail pages will be added to the queue and scraped afterwards.
 The `startUrls` attribute should cotain an array of URLs as follows:
 
 ```javascript
-startUrls: [
-    "https://www.booking.com/hotel/fr/ariane-montparnasse.en-gb.html",
-    "https://www.booking.com/hotel/fr/heliosopera.en-gb.html",
-    "https://www.booking.com/hotel/fr/ritz-paris-paris.en-gb.html",
+{
+    "startUrls": [
+        "https://www.booking.com/hotel/fr/ariane-montparnasse.en-gb.html",
+        "https://www.booking.com/hotel/fr/heliosopera.en-gb.html",
+        "https://www.booking.com/hotel/fr/ritz-paris-paris.en-gb.html",
+        ...
+    ],
+    "simple": false,
+    "minScore": 8.4,
     ...
-]
+}
 ```
