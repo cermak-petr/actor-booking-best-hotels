@@ -324,13 +324,17 @@ Apify.main(async () => {
                     }
                     
                     // Extract data for each room.
-                    const occupancy = await row.$eval('.hprt-occupancy-occupancy-info', hprt => {
-                        if(!hprt){return null;}
-                        const occ1 = document.querySelector('.hprt-occupancy-occupancy-info .invisible_spoken');
-                        const occ2 = document.querySelector('.hprt-occupancy-occupancy-info').getAttribute('data-title');
-                        const occ3 = document.querySelector('.hprt-occupancy-occupancy-info').textContent;
-                        return occ1 ? occ1.textContent : (occ2 || occ3);
-                    });
+                    let occupancy;
+                    try{
+                        occupancy = await row.$eval('.hprt-occupancy-occupancy-info', hprt => {
+                            if(!hprt){return null;}
+                            const occ1 = document.querySelector('.hprt-occupancy-occupancy-info .invisible_spoken');
+                            const occ2 = document.querySelector('.hprt-occupancy-occupancy-info').getAttribute('data-title');
+                            const occ3 = document.querySelector('.hprt-occupancy-occupancy-info').textContent;
+                            return occ1 ? occ1.textContent : (occ2 || occ3);
+                        });
+                    }
+                    catch(e){occupancy = null;}
                     const persons = occupancy ? occupancy.match(/\d+/) : null;
                     const priceE = await row.$('.hprt-price-price');
                     const prict = priceE ? await getAttribute(priceE, 'textContent') : null;
