@@ -48,13 +48,13 @@ Input is a JSON object with the following properties:
 * `language` preferred language code to be set on the site.  
 * `proxyConfig` defines Apify proxy configuration, it should respect this format:  
 ```javascript
-"proxyConfig": [
+"proxyConfig": {
     "useApifyProxy": true,
     "apifyProxyGroups": [
         "RESIDENTIAL",
         ...
     ]
-]
+}
 ```  
 * `sortBy` sets a hotel attribute by which the results will be ordered, must be one of the following.
 ```javascript
