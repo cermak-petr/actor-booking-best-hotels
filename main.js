@@ -417,18 +417,26 @@ Apify.main(async () => {
                     region: addr.addressRegion
                 };
                 const name = await page.$('#hp_hotel_name');
+                const hType = await page.$('.hp__hotel-type-badge');
+                const bFast = await page.$('.ph-item-copy-breakfast-option');
                 const starIcon = await page.$('i.bk-icon-stars');
                 const starTitle = await getAttribute(starIcon, 'title');
                 const stars = starTitle ? starTitle.match(/\d/) : null;
                 const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
+                const cInOut = await page.$('.bui-date__subtitle');
+                const cMatch = cInOut ? (await getAttribute(hType, 'textContent')).match(/\d+:(\d+)/g) : null;
                 const rooms = await extractRooms();
                 await Apify.pushData({
                     url: addUrlParameters((await page.url()).split('?')[0]),
                     name: await getAttribute(name, 'textContent'),
+                    type: await getAttribute(hType, 'textContent'),
                     description: ld.description,
                     stars: stars ? stars[0] : null,
                     rating: ld.aggregateRating.ratingValue,
                     reviews: ld.aggregateRating.reviewCount,
+                    breakfast: await getAttribute(bFast, 'textContent'),
+                    checkIn: (cMatch && cMatch.length > 1) ? cMatch[0] : null, 
+                    checkOut: (cMatch && cMatch.length > 1) ? cMatch[1] : null,
                     location: (loc && loc.length > 2) ? {lat: loc[1], lng: loc[2]} : null,
                     address: address,
                     rooms: rooms
