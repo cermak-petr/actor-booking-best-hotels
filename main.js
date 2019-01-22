@@ -424,7 +424,7 @@ Apify.main(async () => {
                 const stars = starTitle ? starTitle.match(/\d/) : null;
                 const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
                 const cInOut = await page.$('.bui-date__subtitle');
-                const cMatch = cInOut ? (await getAttribute(hType, 'textContent')).match(/\d+:(\d+)/g) : null;
+                const cMatch = cInOut ? (await getAttribute(cInOut, 'textContent')).match(/\d+:(\d+)/g) : null;
                 const rooms = await extractRooms();
                 await Apify.pushData({
                     url: addUrlParameters((await page.url()).split('?')[0]),
