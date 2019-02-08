@@ -418,7 +418,7 @@ Apify.main(async () => {
                 }
                 
                 // Exit if core data is not present ot the rating is too low.
-                if(!ld || !(ld.aggregateRating && ld.aggregateRating.ratingValue <= (input.minScore || 0))){
+                if(!ld || (ld.aggregateRating && ld.aggregateRating.ratingValue <= (input.minScore || 0))){
                     return;
                 }
                 
