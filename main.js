@@ -396,14 +396,14 @@ Apify.main(async () => {
                 // wait for necessary elements
                 try{
                     await page.waitForSelector('.hprt-occupancy-occupancy-info');
-                    await page.waitForFunction(() => {
+                    /*await page.waitForFunction(() => {
                         const script = document.querySelector('script[type="application/ld+json"]');
                         try{
                             const data = JSON.parse(script.textContent);
                             return (data && data.ggregateRating) ? true : false;
                         }
                         catch(e){return false;}
-                    });
+                    });*/
                 }
                 catch(e){}
                 
@@ -418,12 +418,12 @@ Apify.main(async () => {
                 }
                 
                 // Exit if core data is not present ot the rating is too low.
-                if(!ld || !ld.aggregateRating || ld.aggregateRating.ratingValue <= (input.minScore || 0)){
+                if(!ld || !(ld.aggregateRating && ld.aggregateRating.ratingValue <= (input.minScore || 0))){
                     return;
                 }
                 
                 // Extract the data.
-                const addr = ld.address;
+                const addr = ld.address || null;
                 const address = {
                     full: addr.streetAddress,
                     postalCode: addr.postalCode,
@@ -445,10 +445,10 @@ Apify.main(async () => {
                     url: addUrlParameters((await page.url()).split('?')[0]),
                     name: await getAttribute(name, 'textContent'),
                     type: await getAttribute(hType, 'textContent'),
-                    description: ld.description,
+                    description: ld.description || null,
                     stars: stars ? stars[0] : null,
-                    rating: ld.aggregateRating.ratingValue,
-                    reviews: ld.aggregateRating.reviewCount,
+                    rating: ld.aggregateRating ? ld.aggregateRating.ratingValue : null,
+                    reviews: ld.aggregateRating ? ld.aggregateRating.reviewCount : null,
                     breakfast: await getAttribute(bFast, 'textContent'),
                     checkIn: (cMatch && cMatch.length > 1) ? cMatch[0] : null, 
                     checkOut: (cMatch && cMatch.length > 1) ? cMatch[1] : null,
