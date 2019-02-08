@@ -55,6 +55,9 @@ Apify.main(async () => {
     if(!input.search && !input.startUrls){
         throw new Error('Missing "search" or "startUrls" attribute in INPUT!');
     }
+    if(!(input.proxyConfig && input.proxyConfig.useApifyProxy)){
+        throw new Error('This actor cannot be used without Apify proxy.');
+    }
     if(input.minScore){input.minScore = parseFloat(input.minScore);}
     const sortBy = input.sortBy || 'bayesian_review_score';
     
@@ -389,7 +392,19 @@ Apify.main(async () => {
             
             // Extract data from the hotel detail page
             if(request.userData.label === 'detail'){
-                try{await page.waitForSelector('.hprt-occupancy-occupancy-info');}
+                
+                // wait for necessary elements
+                try{
+                    await page.waitForSelector('.hprt-occupancy-occupancy-info');
+                    await page.waitForFunction(() => {
+                        const script = document.querySelector('script[type="application/ld+json"]');
+                        try{
+                            const data = JSON.parse(script.textContent);
+                            return (data && data.ggregateRating) ? true : false;
+                        }
+                        catch(e){return false;}
+                    });
+                }
                 catch(e){}
                 
                 const ldElem = await page.$('script[type="application/ld+json"]');
