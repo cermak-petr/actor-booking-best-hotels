@@ -475,6 +475,7 @@ Apify.main(async () => {
                         const countData = (await getAttribute(countElem, 'textContent')).match(/\d+/);
                         if(countData){
                             const count = parseInt(countData[0])/20;
+                            console.log('pagination pages: ' + count);
                             for(let i = 0; i <= count; i++){
                                 await requestQueue.addRequest(new Apify.Request({
                                     url: baseUrl + '&rows=20&offset=' + 20*i, 
