@@ -253,6 +253,9 @@ Apify.main(async () => {
                             const stars = starAttr ? starAttr.match(/\d/) : null;
                             const loc = jThis.find('.district_link').attr('data-coords');
                             const latlng = loc ? loc.split(',') : null;
+                            const image = jThis.find('.sr_item_photo_link.sr_hotel_preview_track').attr('style');
+                            const imageRegexp = /url\((.*?)\)/gm;
+                            const imageParsed = imageRegexp.exec(image);
                             const url = window.location.origin + jThis.find('.hotel_name_link').attr('href').replace(/\n/g, '');
                             const item = {
                                 'url': url.split('?')[0],
@@ -264,7 +267,8 @@ Apify.main(async () => {
                                 'currency': pc ? pc[0].trim() : null,
                                 'roomType': rl.length > 0 ? rl[0].textContent.trim() : null,
                                 'persons': occ ? occ : null,
-                                'location': latlng ? {lat: latlng[0], lng: latlng[1]} : null
+                                'location': latlng ? {lat: latlng[0], lng: latlng[1]} : null,
+                                'image': image
                             };
                             if(!input.useFilters){item.totalFound = found;}
                             if(item.rating && item.rating >= (input.minScore || 0)){result.push(item);}
