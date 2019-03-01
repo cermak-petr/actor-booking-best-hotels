@@ -474,7 +474,7 @@ Apify.main(async () => {
                         const countElem = await page.$('.sorth1');
                         const countData = (await getAttribute(countElem, 'textContent')).replace(/\.|,|\s/g, '').match(/\d+/);
                         if(countData){
-                            const count = parseInt(countData[0])/20;
+                            const count = Math.ceil(parseInt(countData[0])/20);
                             console.log('pagination pages: ' + count);
                             for(let i = 0; i <= count; i++){
                                 await requestQueue.addRequest(new Apify.Request({
