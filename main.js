@@ -468,9 +468,9 @@ Apify.main(async () => {
                 
                 const filtered = await isFiltered(page);
                 if((!input.useFilters && !input.maxPages) || filtered){
-                    console.log('enqueuing pagination pages...');
                     const baseUrl = await page.url();
                     if(baseUrl.indexOf('offset') < 0){
+                        console.log('enqueuing pagination pages...');
                         const countElem = await page.$('.sorth1');
                         const countData = (await getAttribute(countElem, 'textContent')).replace(/\.|,|\s/g, '').match(/\d+/);
                         if(countData){
