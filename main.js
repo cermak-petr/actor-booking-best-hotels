@@ -472,7 +472,7 @@ Apify.main(async () => {
                     const baseUrl = await page.url();
                     if(baseUrl.indexOf('offset') < 0){
                         const countElem = await page.$('.sorth1');
-                        const countData = (await getAttribute(countElem, 'textContent')).match(/\d+/);
+                        const countData = (await getAttribute(countElem, 'textContent')).replace(/\.|,|\s/g, '').match(/\d+/);
                         if(countData){
                             const count = parseInt(countData[0])/20;
                             console.log('pagination pages: ' + count);
