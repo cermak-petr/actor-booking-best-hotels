@@ -478,11 +478,25 @@ Apify.main(async () => {
                     }
                     else{
                         console.log('enqueuing pagination pages...');
-                        const filter = await getAttribute(filtered, 'textContent');
+                        const baseUrl = await page.url();
+                        if(baseUrl.indexOf('offset') < 0){
+                            const countElem = await page.$('.sorth1');
+                            const countData = (await getAttribute(countElem, 'textContent)).match(/\d+/);
+                            if(countData){
+                                const count = parseInt(countData[0])/20;
+                                for(let i = 0; i <= count; i++){
+                                    await requestQueue.addRequest(new Apify.Request({
+                                        url: baseUrl + '&rows=20&offset=' + 20*i, 
+                                        userData: {label: 'page'}
+                                    }));
+                                }
+                            }
+                        }
+                        /*const filter = await getAttribute(filtered, 'textContent');
                         await enqueueLinks(page, requestQueue, '.sr_pagination_link', null, 'page', fixUrl('&'), async link => {
                             const lText = await getAttribute(link, 'textContent');
                             return filter + '_' + lText;
-                        });
+                        });*/
                     }
                 }
                 
