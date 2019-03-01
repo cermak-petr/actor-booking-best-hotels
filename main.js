@@ -467,7 +467,7 @@ Apify.main(async () => {
                 }
                 
                 const filtered = await isFiltered(page);
-                if((!input.useFilters && input.maxPages) || filtered){
+                if((!input.useFilters && !input.maxPages) || filtered){
                     console.log('enqueuing pagination pages...');
                     const baseUrl = await page.url();
                     if(baseUrl.indexOf('offset') < 0){
