@@ -121,8 +121,8 @@ Apify.main(async () => {
         startUrl += '&rows=20';
         console.log('startUrl: ' + startUrl);
         await requestQueue.addRequest(new Apify.Request({url: startUrl, userData: {label: 'start'}}));
-        if(!input.useFilters){
-            for(let i = 1; i <= 20; i++){
+        if(!input.useFilters && input.maxPages){
+            for(let i = 1; i <= input.maxPages; i++){
                 await requestQueue.addRequest(new Apify.Request({
                     url: startUrl + '&offset=' + 20*i, 
                     userData: {label: 'page'}
@@ -466,9 +466,27 @@ Apify.main(async () => {
                     return;
                 }
                 
+                const filtered = await isFiltered(page);
+                if((!input.useFilters && input.maxPages) || filtered){
+                    console.log('enqueuing pagination pages...');
+                    const baseUrl = await page.url();
+                    if(baseUrl.indexOf('offset') < 0){
+                        const countElem = await page.$('.sorth1');
+                        const countData = (await getAttribute(countElem, 'textContent')).match(/\d+/);
+                        if(countData){
+                            const count = parseInt(countData[0])/20;
+                            for(let i = 0; i <= count; i++){
+                                await requestQueue.addRequest(new Apify.Request({
+                                    url: baseUrl + '&rows=20&offset=' + 20*i, 
+                                    userData: {label: 'page'}
+                                }));
+                            }
+                        }
+                    }
+                }
+                
                 // If filtering is enabled, enqueue necessary pages.
                 if(input.useFilters){
-                    const filtered = await isFiltered(page);
                     if(!filtered){
                         console.log('enqueuing filtered pages...');
                         await enqueueLinks(page, requestQueue, '.filterelement', null, 'page', fixUrl('&'), async link => {
@@ -477,21 +495,6 @@ Apify.main(async () => {
                         });
                     }
                     else{
-                        console.log('enqueuing pagination pages...');
-                        const baseUrl = await page.url();
-                        if(baseUrl.indexOf('offset') < 0){
-                            const countElem = await page.$('.sorth1');
-                            const countData = (await getAttribute(countElem, 'textContent')).match(/\d+/);
-                            if(countData){
-                                const count = parseInt(countData[0])/20;
-                                for(let i = 0; i <= count; i++){
-                                    await requestQueue.addRequest(new Apify.Request({
-                                        url: baseUrl + '&rows=20&offset=' + 20*i, 
-                                        userData: {label: 'page'}
-                                    }));
-                                }
-                            }
-                        }
                         /*const filter = await getAttribute(filtered, 'textContent');
                         await enqueueLinks(page, requestQueue, '.sr_pagination_link', null, 'page', fixUrl('&'), async link => {
                             const lText = await getAttribute(link, 'textContent');
