@@ -411,6 +411,7 @@ Apify.main(async () => {
                 }
                 catch(e){}
                 
+                const html = await page.content();
                 const ldElem = await page.$('script[type="application/ld+json"]');
                 const ld = JSON.parse(await getAttribute(ldElem, 'textContent'));
                 
@@ -446,6 +447,7 @@ Apify.main(async () => {
                 const cMatch = cInOut ? (await getAttribute(cInOut, 'textContent')).match(/\d+:(\d+)/g) : null;
                 const img1 = await getAttribute(await page.$('.slick-track img'), 'src');
                 const img2 = await getAttribute(await page.$('#photo_wrapper img'), 'src');
+                const img3 = html.match(/large_url: '(.+)'/);
                 const rooms = await extractRooms();
                 await Apify.pushData({
                     url: addUrlParameters((await page.url()).split('?')[0]),
@@ -460,7 +462,7 @@ Apify.main(async () => {
                     checkOut: (cMatch && cMatch.length > 1) ? cMatch[1] : null,
                     location: (loc && loc.length > 2) ? {lat: loc[1], lng: loc[2]} : null,
                     address: address,
-                    image: img1 || img2,
+                    image: img1 || img2 || (img3 ? img3[1] : null),
                     rooms: rooms
                 });
             }
