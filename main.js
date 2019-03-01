@@ -444,6 +444,7 @@ Apify.main(async () => {
                 const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
                 const cInOut = await page.$('.bui-date__subtitle');
                 const cMatch = cInOut ? (await getAttribute(cInOut, 'textContent')).match(/\d+:(\d+)/g) : null;
+                const image = await getAttribute(await page.$('.slick-track img'), 'src');
                 const rooms = await extractRooms();
                 await Apify.pushData({
                     url: addUrlParameters((await page.url()).split('?')[0]),
@@ -458,6 +459,7 @@ Apify.main(async () => {
                     checkOut: (cMatch && cMatch.length > 1) ? cMatch[1] : null,
                     location: (loc && loc.length > 2) ? {lat: loc[1], lng: loc[2]} : null,
                     address: address,
+                    image: image,
                     rooms: rooms
                 });
             }
